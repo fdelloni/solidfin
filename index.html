@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SolidFin - Préstamos con Garantía Solidaria</title>
+<meta name="description" content="Accedé a créditos personales con tasas desde el 15% anual, respaldados por una comunidad solidaria. Tu responsabilidad tiene un límite claro.">
+<meta property="og:title" content="SolidFin - Préstamos con Garantía Solidaria">
+<meta property="og:description" content="Créditos personales con garantía solidaria limitada. Tasas desde 15% anual.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect rx='20' width='100' height='100' fill='%23FF6B35'/><text x='50' y='72' font-size='60' text-anchor='middle' fill='white' font-weight='bold'>S</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --primary: #FF6B35; --primary-light: #FF8F5E; --primary-dark: #E55A2B;
+  --secondary: #2EC4B6; --secondary-dark: #1FA89C;
+  --accent: #7B2D8E; --warm: #FFD166;
+  --bg: #FFF9F5; --card: #FFFFFF; --text: #2D3436;
+  --text-light: #636E72; --text-muted: #B2BEC3;
+  --success: #00B894; --danger: #E17055;
+  --grad-primary: linear-gradient(135deg, #FF6B35 0%, #FF8F5E 50%, #FFD166 100%);
+  --grad-secondary: linear-gradient(135deg, #2EC4B6 0%, #7B2D8E 100%);
+}
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; color: var(--text); background: var(--bg); line-height: 1.5; overflow-x: hidden; }
+a { text-decoration: none; color: inherit; }
+
+/* NAV */
+.nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 0 20px; transition: all .3s; }
+.nav.scrolled { background: rgba(255,249,245,.96); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(0,0,0,.06); box-shadow: 0 2px 20px rgba(0,0,0,.04); }
+.nav-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 68px; }
+.logo { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+.logo-icon { width: 38px; height: 38px; border-radius: 11px; background: var(--grad-primary); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 800; font-size: 17px; }
+.logo-text { font-size: 21px; font-weight: 700; }
+.logo-text span { color: var(--primary); }
+.nav-links { display: flex; gap: 6px; }
+.nav-link { padding: 8px 16px; border-radius: 12px; border: none; background: transparent; color: var(--text-light); font-size: 14px; font-weight: 500; cursor: pointer; transition: all .2s; font-family: inherit; }
+.nav-link:hover { background: rgba(255,107,53,.08); color: var(--primary); }
+.nav-link.active { background: var(--primary); color: #fff; font-weight: 600; }
+.hamburger { display: none; background: none; border: none; font-size: 26px; cursor: pointer; color: var(--text); }
+
+/* BUTTONS */
+.btn-primary { background: var(--grad-primary); color: #fff; border: none; border-radius: 14px; padding: 14px 32px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all .2s; box-shadow: 0 4px 16px rgba(255,107,53,.3); font-family: inherit; }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(255,107,53,.4); }
+.btn-secondary { background: transparent; color: var(--primary); border: 2px solid var(--primary); border-radius: 14px; padding: 12px 28px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all .2s; font-family: inherit; }
+.btn-secondary:hover { background: var(--primary); color: #fff; }
+
+/* CARD */
+.card { background: var(--card); border-radius: 20px; padding: 28px; box-shadow: 0 4px 24px rgba(0,0,0,.06); border: 1px solid rgba(0,0,0,.04); transition: transform .2s, box-shadow .2s; }
+.card:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,0,0,.1); }
+.badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 18px; border-radius: 30px; font-size: 14px; font-weight: 600; }
+
+/* SECTION */
+.section { padding: 80px 20px; }
+.section-center { text-align: center; margin-bottom: 56px; }
+.section-title { font-size: 38px; font-weight: 800; margin-top: 18px; }
+.section-desc { font-size: 17px; color: var(--text-light); max-width: 600px; margin: 14px auto 0; line-height: 1.7; }
+.container { max-width: 1140px; margin: 0 auto; }
+
+/* ─── HERO ────────────────── */
+.hero { min-height: 100vh; display: flex; align-items: center; padding: 100px 20px 60px; background: linear-gradient(160deg, var(--bg) 0%, #FFF0E8 40%, #E8FFF9 70%, var(--bg) 100%); position: relative; overflow: hidden; }
+.hero-circle-1 { position: absolute; top: -100px; right: -100px; width: 400px; height: 400px; border-radius: 50%; background: rgba(255,107,53,.08); }
+.hero-circle-2 { position: absolute; bottom: -50px; left: -50px; width: 300px; height: 300px; border-radius: 50%; background: rgba(46,196,182,.08); }
+.hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; position: relative; }
+.hero h1 { font-size: 50px; font-weight: 800; line-height: 1.12; margin-bottom: 20px; }
+.hero h1 em { font-style: normal; background: var(--grad-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.hero p { font-size: 18px; color: var(--text-light); line-height: 1.7; margin-bottom: 32px; max-width: 500px; }
+.hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
+.hero-stats { display: flex; gap: 32px; margin-top: 44px; }
+.hero-stat-val { font-size: 28px; font-weight: 800; color: var(--primary); }
+.hero-stat-lbl { font-size: 13px; color: var(--text-light); }
+
+/* Phone mockup */
+.phone { width: 290px; height: 590px; border-radius: 36px; background: #fff; box-shadow: 0 20px 60px rgba(0,0,0,.12); border: 8px solid #1a1a1a; overflow: hidden; margin: 0 auto; }
+.phone-notch { width: 120px; height: 28px; border-radius: 0 0 18px 18px; background: #1a1a1a; margin: 0 auto; }
+.phone-header { background: var(--grad-primary); padding: 20px 18px 18px; color: #fff; }
+.phone-header h3 { font-size: 19px; font-weight: 700; }
+.phone-header small { font-size: 12px; opacity: .85; }
+.phone-body { padding: 14px; }
+.phone-balance { background: linear-gradient(135deg,#2EC4B6,#1FA89C); border-radius: 14px; padding: 18px; color: #fff; margin-bottom: 14px; }
+.phone-balance .amount { font-size: 26px; font-weight: 800; margin: 2px 0; }
+.phone-balance .meta { font-size: 11px; opacity: .8; }
+.progress-bar { margin-top: 10px; background: rgba(255,255,255,.2); border-radius: 6px; height: 7px; }
+.progress-bar .fill { width: 35%; height: 100%; border-radius: 6px; background: #fff; }
+.phone-group { background: #F8F9FA; border-radius: 14px; padding: 14px; margin-bottom: 12px; }
+.phone-group-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.phone-group-header span { font-size: 13px; font-weight: 600; }
+.phone-group-header .tag { background: #E8FFF5; color: var(--success); padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+.dots { display: flex; gap: 4px; flex-wrap: wrap; }
+.dot { width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 7px; color: #fff; font-weight: 600; }
+.dot.ok { background: var(--secondary); }
+.dot.bad { background: var(--danger); }
+.phone-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.phone-action { background: #F8F9FA; border-radius: 12px; padding: 12px; text-align: center; }
+.phone-action .icon { font-size: 22px; }
+.phone-action .label { font-size: 11px; color: var(--text-light); margin-top: 2px; }
+
+/* ─── HOW IT WORKS ────────── */
+.steps-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 22px; }
+.step-card { text-align: center; position: relative; }
+.step-num { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); width: 28px; height: 28px; border-radius: 50%; background: var(--grad-primary); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; z-index: 2; }
+.step-icon { font-size: 46px; margin: 16px 0 14px; }
+.step-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
+.step-card p { font-size: 14px; color: var(--text-light); line-height: 1.6; }
+
+/* ─── FEATURES ────────────── */
+.features-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+.feature-card { display: flex; gap: 18px; }
+.feature-icon { width: 56px; height: 56px; border-radius: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 28px; }
+.feature-card h3 { font-size: 19px; font-weight: 700; margin-bottom: 6px; }
+.feature-card p { font-size: 14px; color: var(--text-light); line-height: 1.6; }
+
+/* ─── RATE CHART ──────────── */
+.chart-wrap { display: flex; justify-content: center; }
+.chart-wrap svg { max-width: 100%; height: auto; }
+.info-boxes { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin-top: 22px; }
+.info-box { display: flex; gap: 12px; align-items: center; padding: 18px; }
+.info-box-icon { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+.info-box h4 { font-size: 14px; font-weight: 700; }
+.info-box p { font-size: 13px; color: var(--text-light); }
+
+/* ─── SIMULATOR ───────────── */
+.sim-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 28px; }
+.sim-label { display: flex; justify-content: space-between; margin-bottom: 8px; }
+.sim-label label { font-size: 14px; font-weight: 600; }
+.sim-label .val { font-size: 20px; font-weight: 800; }
+.sim-range { width: 100%; accent-color: var(--primary); height: 8px; margin-bottom: 4px; }
+.sim-range-labels { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-muted); margin-bottom: 24px; }
+.sim-result-big { background: var(--grad-primary); color: #fff; border-radius: 20px; padding: 28px; margin-bottom: 18px; box-shadow: 0 4px 24px rgba(255,107,53,.2); }
+.sim-result-big .label { font-size: 14px; opacity: .85; }
+.sim-result-big .value { font-size: 46px; font-weight: 800; margin: 6px 0; }
+.sim-result-big .sub { font-size: 14px; opacity: .85; }
+.sim-mini-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.sim-mini .icon { font-size: 20px; margin-bottom: 6px; }
+.sim-mini .label { font-size: 12px; color: var(--text-light); }
+.sim-mini .value { font-size: 22px; font-weight: 800; }
+.sim-savings { border-left: 4px solid var(--success); margin-top: 12px; display: flex; align-items: center; gap: 10px; }
+.sim-savings .value { font-size: 24px; font-weight: 800; color: var(--success); }
+.sim-savings .label { font-size: 12px; color: var(--text-light); }
+.sim-rate-box { border-radius: 12px; padding: 14px; display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 600; }
+
+/* ─── DASHBOARD ───────────── */
+.dash-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; }
+.dash-header h1 { font-size: 30px; font-weight: 800; }
+.dash-header p { font-size: 15px; color: var(--text-light); }
+.dash-icons { display: flex; gap: 10px; }
+.dash-icon { width: 42px; height: 42px; border-radius: 13px; display: flex; align-items: center; justify-content: center; font-size: 18px; cursor: pointer; }
+.tabs { display: flex; gap: 8px; margin-bottom: 26px; flex-wrap: wrap; }
+.tab { display: flex; align-items: center; gap: 6px; padding: 10px 18px; border-radius: 14px; border: none; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; transition: all .2s; }
+.tab.active { background: var(--primary); color: #fff; }
+.tab:not(.active) { background: rgba(0,0,0,.03); color: var(--text-light); }
+.stats-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; margin-bottom: 22px; }
+.stat-card .top { display: flex; justify-content: space-between; align-items: flex-start; }
+.stat-card .stat-label { font-size: 13px; color: var(--text-light); }
+.stat-card .stat-value { font-size: 27px; font-weight: 800; margin: 3px 0; }
+.stat-card .stat-sub { font-size: 12px; color: var(--text-muted); }
+.stat-icon { width: 42px; height: 42px; border-radius: 13px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+.cuotas-bar { display: flex; gap: 7px; margin-bottom: 14px; }
+.cuota { flex: 1; height: 38px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; }
+.cuota.paid { background: var(--success); color: #fff; }
+.cuota.next { background: rgba(255,107,53,.15); color: var(--primary); border: 2px dashed var(--primary); }
+.cuota.future { background: #F0F0F0; color: var(--text-muted); }
+.group-grid { display: grid; grid-template-columns: repeat(20,1fr); gap: 5px; }
+.g-cell { aspect-ratio: 1; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 7px; color: #fff; font-weight: 700; cursor: pointer; transition: transform .15s; }
+.g-cell:hover { transform: scale(1.35); z-index: 2; }
+.g-cell.ok { background: var(--success); opacity: .7; }
+.g-cell.late { background: var(--warm); }
+.g-cell.bad { background: var(--danger); }
+.chat-msg { display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid #F0F0F0; }
+.chat-msg:last-child { border-bottom: none; }
+.chat-avatar { width: 34px; height: 34px; border-radius: 50%; background: var(--grad-primary); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; flex-shrink: 0; }
+.chat-name { font-size: 14px; font-weight: 600; }
+.chat-time { font-size: 12px; color: var(--text-muted); }
+.chat-text { font-size: 14px; color: var(--text-light); margin-top: 2px; }
+.pay-row { display: flex; justify-content: space-between; align-items: center; padding: 15px; border-radius: 12px; margin-bottom: 8px; }
+.pay-row.paid { background: #F8FFF5; }
+.pay-row.upcoming { background: #FFF8E8; }
+.pay-row.future { background: #F8F9FA; }
+.pay-left { display: flex; align-items: center; gap: 12px; }
+.pay-icon { width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 16px; color: #fff; }
+.pay-icon.paid { background: var(--success); }
+.pay-icon.upcoming { background: var(--warm); }
+.pay-icon.future { background: #ccc; }
+.pay-amount { font-size: 18px; font-weight: 700; }
+.pay-status { font-size: 12px; font-weight: 600; }
+.ach-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; }
+.ach-card { text-align: center; }
+.ach-card.locked { opacity: .45; filter: grayscale(1); }
+.ach-emoji { font-size: 46px; margin-bottom: 10px; }
+.ach-card h4 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+.ach-card p { font-size: 13px; color: var(--text-light); }
+.ach-tag { display: inline-block; margin-top: 8px; background: #E8FFF5; color: var(--success); padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+
+/* ─── INVESTORS ───────────── */
+.inv-metrics { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; margin-bottom: 36px; }
+.inv-metric { text-align: center; }
+.inv-metric-icon { width: 50px; height: 50px; border-radius: 15px; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; font-size: 24px; }
+.inv-metric .val { font-size: 27px; font-weight: 800; }
+.inv-metric .lbl { font-size: 13px; color: var(--text-light); margin-top: 3px; }
+.inv-two { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-bottom: 36px; }
+.inv-inno { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 18px; }
+.inv-inno-num { width: 30px; height: 30px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; flex-shrink: 0; }
+.inv-inno h4 { font-size: 16px; font-weight: 700; margin-bottom: 5px; }
+.inv-inno p { font-size: 14px; color: var(--text-light); line-height: 1.6; }
+.scenario { padding: 15px; border-radius: 12px; margin-bottom: 10px; border-left: 4px solid; }
+.scenario:last-child { margin-bottom: 0; }
+.scenario .top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+.scenario h4 { font-size: 15px; font-weight: 700; }
+.scenario .level { font-size: 13px; font-weight: 700; }
+.scenario p { font-size: 13px; color: var(--text-light); line-height: 1.5; }
+.market-cols { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; }
+.market-col { padding: 20px; border-radius: 16px; background: #F8F9FA; }
+.market-col .col-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.market-col .col-header span { font-size: 22px; }
+.market-col h4 { font-size: 16px; font-weight: 700; }
+.market-item { display: flex; align-items: center; gap: 8px; padding: 8px 0; border-bottom: 1px solid #E8E8E8; font-size: 14px; color: var(--text-light); }
+.market-item:last-child { border-bottom: none; }
+
+/* ─── REGISTER ────────────── */
+.reg-types { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 26px; }
+.reg-type { padding: 20px; border-radius: 16px; cursor: pointer; border: 2px solid #E8E8E8; text-align: center; transition: all .2s; }
+.reg-type.selected { border-color: var(--primary); background: rgba(255,107,53,.05); }
+.reg-type .icon { font-size: 30px; margin-bottom: 6px; }
+.reg-type h4 { font-size: 15px; font-weight: 700; }
+.reg-type p { font-size: 13px; color: var(--text-light); margin-top: 3px; }
+.form-group { margin-bottom: 18px; }
+.form-group label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 7px; }
+.form-input { width: 100%; padding: 13px 16px; border-radius: 14px; border: 2px solid #E8E8E8; font-size: 15px; font-family: inherit; outline: none; transition: border-color .2s; background: #fff; color: var(--text); }
+.form-input:focus { border-color: var(--primary); }
+.form-input.textarea { resize: vertical; min-height: 80px; }
+
+/* ─── FAQ ─────────────────── */
+.faq-item { margin-bottom: 10px; cursor: pointer; overflow: hidden; }
+.faq-q { padding: 18px 22px; display: flex; justify-content: space-between; align-items: center; font-size: 16px; font-weight: 600; }
+.faq-arrow { transition: transform .2s; font-size: 18px; color: var(--text-muted); flex-shrink: 0; }
+.faq-item.open .faq-arrow { transform: rotate(90deg); }
+.faq-a { padding: 0 22px 18px; font-size: 15px; color: var(--text-light); line-height: 1.7; display: none; }
+.faq-item.open .faq-a { display: block; }
+
+/* ─── FOOTER ──────────────── */
+.footer { background: var(--text); color: #fff; padding: 56px 20px 28px; }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 36px; margin-bottom: 36px; }
+.footer-desc { font-size: 14px; opacity: .6; line-height: 1.7; max-width: 300px; margin-top: 14px; }
+.footer h4 { font-size: 15px; font-weight: 700; margin-bottom: 14px; }
+.footer-link { font-size: 14px; opacity: .6; margin-bottom: 10px; cursor: pointer; }
+.footer-link:hover { opacity: 1; }
+.footer-bottom { border-top: 1px solid rgba(255,255,255,.1); padding-top: 22px; text-align: center; font-size: 13px; opacity: .4; }
+
+/* ─── RESPONSIVE ──────────── */
+@media (max-width: 900px) {
+  .hero-grid, .sim-grid, .features-grid, .inv-two { grid-template-columns: 1fr; }
+  .steps-grid { grid-template-columns: 1fr 1fr; }
+  .stats-row, .inv-metrics { grid-template-columns: 1fr 1fr; }
+  .info-boxes, .ach-grid, .market-cols { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .group-grid { grid-template-columns: repeat(10,1fr); }
+  .hero h1 { font-size: 36px; }
+  .phone { display: none; }
+}
+@media (max-width: 600px) {
+  .nav-links { display: none; }
+  .nav-links.open { display: flex; flex-direction: column; position: absolute; top: 68px; left: 0; right: 0; background: rgba(255,249,245,.98); backdrop-filter: blur(20px); padding: 16px; border-bottom: 1px solid rgba(0,0,0,.06); }
+  .hamburger { display: block; }
+  .steps-grid, .reg-types, .sim-mini-grid, .hero-stats { grid-template-columns: 1fr; }
+  .hero h1 { font-size: 30px; }
+  .section-title { font-size: 28px; }
+  .hero-stats { gap: 16px; }
+  .tabs { gap: 6px; }
+  .tab { padding: 8px 12px; font-size: 13px; }
+  .cuotas-bar { flex-wrap: wrap; }
+  .cuota { min-width: 30px; }
+}
+
+.page { display: none; }
+.page.active { display: block; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="navbar">
+  <div class="nav-inner">
+    <div class="logo" onclick="goTo('home')">
+      <div class="logo-icon">S</div>
+      <div class="logo-text">Solid<span>Fin</span></div>
+    </div>
+    <button class="hamburger" onclick="toggleMenu()">&#9776;</button>
+    <div class="nav-links" id="navLinks">
+      <button class="nav-link active" data-page="home" onclick="goTo('home')">Inicio</button>
+      <button class="nav-link" data-page="simulator" onclick="goTo('simulator')">Simulador</button>
+      <button class="nav-link" data-page="dashboard" onclick="goTo('dashboard')">Mi Cuenta</button>
+      <button class="nav-link" data-page="investors" onclick="goTo('investors')">Inversores</button>
+      <button class="nav-link" data-page="register" onclick="goTo('register')">Registrarme</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══ HOME ═══ -->
+<div class="page active" id="page-home">
+
+<section class="hero">
+  <div class="hero-circle-1"></div>
+  <div class="hero-circle-2"></div>
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <div class="badge" style="background:rgba(255,107,53,.1);color:var(--primary);margin-bottom:22px;">&#9889; Nueva forma de acceder al crédito</div>
+        <h1>Préstamos con <em>garantía solidaria</em> limitada</h1>
+        <p>Accedé a créditos personales con tasas desde el <strong style="color:var(--secondary)">15% anual</strong>, respaldados por una comunidad. Tu responsabilidad tiene un límite claro: nunca asumís más de lo justo.</p>
+        <div class="hero-btns">
+          <button class="btn-primary" onclick="goTo('simulator')">Simular mi préstamo &#8594;</button>
+          <button class="btn-secondary" onclick="goTo('investors')">Soy inversor</button>
+        </div>
+        <div class="hero-stats">
+          <div><div class="hero-stat-val">15%</div><div class="hero-stat-lbl">Tasa inicial anual</div></div>
+          <div><div class="hero-stat-val">40%</div><div class="hero-stat-lbl">Límite de solidaridad</div></div>
+          <div><div class="hero-stat-val">25%</div><div class="hero-stat-lbl">Tasa máxima</div></div>
+        </div>
+      </div>
+      <div>
+        <div class="phone">
+          <div class="phone-notch"></div>
+          <div class="phone-header"><h3>Hola, Ana!</h3><small>Grupo Solidario #47</small></div>
+          <div class="phone-body">
+            <div class="phone-balance"><div class="meta">Tu préstamo</div><div class="amount">$10.000</div><div class="meta">Tasa actual: 15% | Cuota: $916</div><div class="progress-bar"><div class="fill"></div></div><div class="meta" style="margin-top:5px">4 de 12 cuotas pagadas</div></div>
+            <div class="phone-group"><div class="phone-group-header"><span>Mi Grupo</span><span class="tag">98% al día</span></div><div class="dots" id="phoneDots"></div></div>
+            <div class="phone-actions"><div class="phone-action"><div class="icon">&#128176;</div><div class="label">Pagar cuota</div></div><div class="phone-action"><div class="icon">&#128101;</div><div class="label">Mi grupo</div></div><div class="phone-action"><div class="icon">&#128200;</div><div class="label">Progreso</div></div><div class="phone-action"><div class="icon">&#128276;</div><div class="label">Alertas</div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background:#fff">
+  <div class="container">
+    <div class="section-center">
+      <div class="badge" style="background:rgba(46,196,182,.1);color:var(--secondary)">Cómo funciona</div>
+      <h2 class="section-title">Simple, transparente y justo</h2>
+      <p class="section-desc">Un modelo que combina lo mejor de las microfinanzas grupales con tecnología moderna y límites claros.</p>
+    </div>
+    <div class="steps-grid">
+      <div class="card step-card"><div class="step-num">1</div><div class="step-icon">&#128241;</div><h3>Solicitá tu préstamo</h3><p>Completá tu solicitud 100% online en minutos. Verificamos tu identidad y evaluamos tu perfil crediticio.</p></div>
+      <div class="card step-card"><div class="step-num">2</div><div class="step-icon">&#128101;</div><h3>Te asignamos un grupo</h3><p>Nuestro algoritmo te ubica en un grupo solidario de ~100 personas con perfiles diversos y equilibrados.</p></div>
+      <div class="card step-card"><div class="step-num">3</div><div class="step-icon">&#128176;</div><h3>Recibí tu dinero</h3><p>Una vez aprobado, el dinero se deposita directamente en tu cuenta con una tasa bonificada desde 15% anual.</p></div>
+      <div class="card step-card"><div class="step-num">4</div><div class="step-icon">&#129309;</div><h3>Pagá y crecé</h3><p>Pagá tus cuotas a tiempo. Mientras el grupo cumple, todos disfrutan la mejor tasa.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background:linear-gradient(180deg,var(--bg),#fff)">
+  <div class="container">
+    <div class="section-center">
+      <div class="badge" style="background:rgba(123,45,142,.1);color:var(--accent)">Ventajas clave</div>
+      <h2 class="section-title">¿Por qué SolidFin?</h2>
+    </div>
+    <div class="features-grid">
+      <div class="card feature-card" style="border-left:4px solid var(--primary)"><div class="feature-icon" style="background:rgba(255,107,53,.1)">&#128737;&#65039;</div><div><h3>Solidaridad Limitada</h3><p>Tu responsabilidad nunca supera el 40% de los impagos del grupo. Si la morosidad excede ese límite, SolidFin absorbe la diferencia.</p></div></div>
+      <div class="card feature-card" style="border-left:4px solid var(--secondary)"><div class="feature-icon" style="background:rgba(46,196,182,.1)">&#128201;</div><div><h3>Tasa Bonificada</h3><p>Arrancás con 15% anual, muy por debajo del mercado. La tasa solo sube si hay impagos, y nunca más del 25%.</p></div></div>
+      <div class="card feature-card" style="border-left:4px solid var(--accent)"><div class="feature-icon" style="background:rgba(123,45,142,.1)">&#129489;&#8205;&#129309;&#8205;&#129489;</div><div><h3>Comunidad Inteligente</h3><p>Nuestro algoritmo arma grupos diversificados. Chat grupal, gamificación y reputación fomentan el compromiso colectivo.</p></div></div>
+      <div class="card feature-card" style="border-left:4px solid #E8A838"><div class="feature-icon" style="background:rgba(232,168,56,.1)">&#128241;</div><div><h3>100% Digital</h3><p>Solicitá, gestioná y pagá desde tu celular. Sin papeles, sin sucursales. Seguimiento en tiempo real.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background:#fff">
+  <div class="container" style="max-width:900px">
+    <div class="section-center">
+      <div class="badge" style="background:rgba(255,107,53,.1);color:var(--primary)">Transparencia total</div>
+      <h2 class="section-title">Así se ajusta tu tasa</h2>
+      <p class="section-desc">La tasa arranca en 15% y sube 0.25 puntos por cada miembro moroso del grupo, con un tope absoluto del 25%.</p>
+    </div>
+    <div class="card chart-wrap"><svg id="rateChart" viewBox="0 0 600 300" style="max-width:100%;overflow:visible"></svg></div>
+    <div class="info-boxes">
+      <div class="card info-box"><div class="info-box-icon" style="background:#E8FFF5;color:var(--success)">&#10003;</div><div><h4>0% morosidad</h4><p>Todos pagan &#8594; Tasa 15%</p></div></div>
+      <div class="card info-box"><div class="info-box-icon" style="background:#FFF8E8;color:#E8A838">&#9888;</div><div><h4>20% morosidad</h4><p>20 morosos &#8594; Tasa 20%</p></div></div>
+      <div class="card info-box"><div class="info-box-icon" style="background:#FFE8E8;color:var(--danger)">&#128737;</div><div><h4>40%+ morosidad</h4><p>Tope activado &#8594; Tasa 25%</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background:var(--bg)">
+  <div class="container" style="max-width:1000px">
+    <div class="section-center"><h2 class="section-title">Simulá tu préstamo</h2><p class="section-desc">Ajustá los valores y mirá cómo funciona el modelo de garantía solidaria</p></div>
+    <div class="sim-grid" id="simHome"></div>
+  </div>
+</section>
+
+<section class="section" style="background:var(--bg)">
+  <div class="container" style="max-width:800px">
+    <div class="section-center"><h2 class="section-title">Preguntas frecuentes</h2></div>
+    <div id="faqList"></div>
+  </div>
+</section>
+
+</div>
+
+<!-- ═══ SIMULATOR ═══ -->
+<div class="page" id="page-simulator">
+  <section class="section" style="min-height:100vh;padding-top:100px;background:linear-gradient(180deg,var(--bg),#fff)">
+    <div class="container" style="max-width:1000px">
+      <div class="section-center"><h1 class="section-title">Simulá tu préstamo</h1><p class="section-desc">Ajustá los valores y mirá cómo funciona el modelo de garantía solidaria</p></div>
+      <div class="sim-grid" id="simStandalone"></div>
+    </div>
+  </section>
+</div>
+
+<!-- ═══ DASHBOARD ═══ -->
+<div class="page" id="page-dashboard">
+  <section class="section" style="min-height:100vh;padding-top:100px;background:linear-gradient(180deg,var(--bg),#fff)">
+    <div class="container" id="dashContent"></div>
+  </section>
+</div>
+
+<!-- ═══ INVESTORS ═══ -->
+<div class="page" id="page-investors">
+  <section class="section" style="min-height:100vh;padding-top:100px;background:linear-gradient(180deg,var(--bg),#fff)">
+    <div class="container" id="invContent"></div>
+  </section>
+</div>
+
+<!-- ═══ REGISTER ═══ -->
+<div class="page" id="page-register">
+  <section class="section" style="min-height:100vh;padding-top:100px;background:linear-gradient(180deg,var(--bg),#fff)">
+    <div class="container" style="max-width:700px" id="regContent"></div>
+  </section>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div><div class="logo" onclick="goTo('home')" style="margin-bottom:4px"><div class="logo-icon">S</div><div class="logo-text" style="color:#fff">Solid<span style="color:var(--primary)">Fin</span></div></div><p class="footer-desc">Préstamos personales con garantía solidaria limitada. Una nueva forma de acceder al crédito, más justa y transparente.</p></div>
+      <div><h4>Producto</h4><div class="footer-link" onclick="goTo('home')">Cómo funciona</div><div class="footer-link" onclick="goTo('simulator')">Simulador</div><div class="footer-link" onclick="goTo('home')">FAQ</div></div>
+      <div><h4>Empresa</h4><div class="footer-link" onclick="goTo('investors')">Inversores</div><div class="footer-link">Contacto</div><div class="footer-link">Blog</div></div>
+      <div><h4>Legal</h4><div class="footer-link">Términos</div><div class="footer-link">Privacidad</div><div class="footer-link">Regulaciones</div></div>
+    </div>
+    <div class="footer-bottom">&#169; 2026 SolidFin. Todos los derechos reservados.</div>
+  </div>
+</footer>
+
+<script>
+var currentPage='home';
+function goTo(page){currentPage=page;document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active')});document.getElementById('page-'+page).classList.add('active');document.querySelectorAll('.nav-link').forEach(function(l){l.classList.toggle('active',l.dataset.page===page)});document.getElementById('navLinks').classList.remove('open');window.scrollTo({top:0,behavior:'smooth'});if(page==='dashboard')renderDashboard();if(page==='investors')renderInvestors();if(page==='register')renderRegister()}
+function toggleMenu(){document.getElementById('navLinks').classList.toggle('open')}
+window.addEventListener('scroll',function(){document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>20)});
+
+// Phone dots
+(function(){var c=document.getElementById('phoneDots'),h='';for(var i=0;i<20;i++)h+='<div class="dot '+(i<19?'ok':'bad')+'">'+(i<19?'\u2713':'!')+'</div>';c.innerHTML=h})();
+
+// Rate chart
+(function(){var svg=document.getElementById('rateChart'),w=600,h=300,pad=50;function xS(v){return pad+(v/40)*(w-pad*2)}function yS(v){return h-pad-((v-14)/12)*(h-pad*2)}var s='<defs><linearGradient id="cg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FF6B35" stop-opacity="0.2"/><stop offset="100%" stop-color="#FF6B35" stop-opacity="0.02"/></linearGradient></defs>';[15,17.5,20,22.5,25].forEach(function(v){s+='<line x1="'+pad+'" y1="'+yS(v)+'" x2="'+(w-pad)+'" y2="'+yS(v)+'" stroke="#F0F0F0" stroke-dasharray="4,4"/><text x="'+(pad-8)+'" y="'+(yS(v)+4)+'" text-anchor="end" fill="#636E72" font-size="12">'+v+'%</text>'});[0,10,20,30,40].forEach(function(v){s+='<line x1="'+xS(v)+'" y1="'+pad+'" x2="'+xS(v)+'" y2="'+(h-pad)+'" stroke="#F0F0F0" stroke-dasharray="4,4"/><text x="'+xS(v)+'" y="'+(h-pad+20)+'" text-anchor="middle" fill="#636E72" font-size="12">'+v+'%</text>'});var pathD='';for(var i=0;i<=40;i++){var t=Math.min(15+i*0.25,25);pathD+=(i===0?'M':'L')+' '+xS(i)+' '+yS(t)}s+='<path d="'+pathD+' L '+xS(40)+' '+(h-pad)+' L '+xS(0)+' '+(h-pad)+' Z" fill="url(#cg)"/><path d="'+pathD+'" fill="none" stroke="#FF6B35" stroke-width="3" stroke-linecap="round"/>';[0,10,20,30,40].forEach(function(m){var t=Math.min(15+m*0.25,25);s+='<circle cx="'+xS(m)+'" cy="'+yS(t)+'" r="6" fill="#FF6B35" stroke="white" stroke-width="3"/>'});s+='<text x="'+(w/2)+'" y="'+(h-5)+'" text-anchor="middle" fill="#636E72" font-size="13">Tasa de impago del grupo (%)</text><text x="12" y="'+(h/2)+'" text-anchor="middle" fill="#636E72" font-size="13" transform="rotate(-90,12,'+(h/2)+')">Tasa de inter\u00e9s (%)</text>';svg.innerHTML=s})();
+
+// Simulator
+function buildSimulator(id){var c=document.getElementById(id);c.innerHTML='<div class="card"><h3 style="font-size:20px;font-weight:700;margin-bottom:24px">Configur\u00e1 tu pr\u00e9stamo</h3><div class="sim-label"><label>Monto del pr\u00e9stamo</label><span class="val" style="color:var(--primary)" id="'+id+'-amtVal">$10.000</span></div><input type="range" class="sim-range" min="1000" max="50000" step="1000" value="10000" id="'+id+'-amt" oninput="updateSim(\''+id+'\')"><div class="sim-range-labels"><span>$1.000</span><span>$50.000</span></div><div class="sim-label"><label>Plazo</label><span class="val" style="color:var(--secondary)" id="'+id+'-termVal">12 meses</span></div><input type="range" class="sim-range" min="3" max="36" step="3" value="12" id="'+id+'-term" style="accent-color:var(--secondary)" oninput="updateSim(\''+id+'\')"><div class="sim-range-labels"><span>3 meses</span><span>36 meses</span></div><div class="sim-label"><label>Morosos en el grupo</label><span class="val" id="'+id+'-defVal" style="color:var(--success)">0 de 100</span></div><input type="range" class="sim-range" min="0" max="40" step="1" value="0" id="'+id+'-def" style="accent-color:var(--success)" oninput="updateSim(\''+id+'\')"><div class="sim-range-labels"><span>0 morosos</span><span>40 (l\u00edmite)</span></div><div class="sim-rate-box" id="'+id+'-rateBox" style="background:#E8FFF5">&#128200; Tasa actual aplicada: <strong id="'+id+'-rateText">15.00% anual</strong></div></div><div><div class="sim-result-big"><div class="label">Tu cuota mensual</div><div class="value" id="'+id+'-payment">$916</div><div class="sub" id="'+id+'-rateSub">con tasa del 15.00% anual</div></div><div class="sim-mini-grid"><div class="card sim-mini"><div class="icon">&#128181;</div><div class="label">Total a pagar</div><div class="value" id="'+id+'-total">$10.990</div></div><div class="card sim-mini"><div class="icon">&#128200;</div><div class="label">Intereses</div><div class="value" id="'+id+'-interest">$990</div></div></div><div class="card sim-savings" style="margin-top:12px"><span style="font-size:20px">&#128201;</span><div><div class="label">Ahorro vs. mercado (~30% APR)</div><div class="value" id="'+id+'-savings">$894</div></div></div></div>';updateSim(id)}
+function fmt(n){return n.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g,'.')}
+function updateSim(id){var amt=+document.getElementById(id+'-amt').value,term=+document.getElementById(id+'-term').value,def=+document.getElementById(id+'-def').value,rate=Math.min(15+def*0.25,25),mr=rate/100/12,pmt=amt*mr/(1-Math.pow(1+mr,-term)),total=pmt*term,interest=total-amt,mktR=30/100/12,mktPmt=amt*mktR/(1-Math.pow(1+mktR,-term)),savings=(mktPmt-pmt)*term;document.getElementById(id+'-amtVal').textContent='$'+fmt(amt);document.getElementById(id+'-termVal').textContent=term+' meses';var dv=document.getElementById(id+'-defVal');dv.textContent=def+' de 100';dv.style.color=def>20?'var(--danger)':'var(--success)';document.getElementById(id+'-def').style.accentColor=def>20?'#E17055':'#00B894';var rb=document.getElementById(id+'-rateBox');rb.style.background=rate<=15?'#E8FFF5':rate<=20?'#FFF8E8':'#FFE8E8';document.getElementById(id+'-rateText').textContent=rate.toFixed(2)+'% anual';document.getElementById(id+'-payment').textContent='$'+fmt(pmt);document.getElementById(id+'-rateSub').textContent='con tasa del '+rate.toFixed(2)+'% anual';document.getElementById(id+'-total').textContent='$'+fmt(total);document.getElementById(id+'-interest').textContent='$'+fmt(interest);document.getElementById(id+'-savings').textContent='$'+fmt(savings)}
+
+// FAQ
+(function(){var faqs=[{q:'\u00bfQu\u00e9 pasa si alguien de mi grupo no paga?',a:'Tu tasa sube ligeramente (0.25 puntos por cada moroso), pero tu responsabilidad tiene un l\u00edmite: nunca asum\u00eds m\u00e1s del 40% de los impagos. Si la morosidad supera ese umbral, SolidFin absorbe la diferencia.'},{q:'\u00bfC\u00f3mo se forman los grupos?',a:'Nuestro algoritmo arma grupos de ~100 personas combinando diferentes perfiles crediticios, regiones y sectores para diversificar el riesgo. No necesit\u00e1s conocer a los dem\u00e1s miembros.'},{q:'\u00bfPor qu\u00e9 la tasa es tan baja?',a:'La garant\u00eda solidaria reduce el riesgo de impago significativamente (los modelos grupales tienen tasas de repago del 95-98%). Ese menor riesgo nos permite ofrecer tasas desde el 15% anual.'},{q:'\u00bfY si m\u00e1s del 40% del grupo no paga?',a:'Se activa el l\u00edmite de solidaridad: tu tasa queda congelada en 25% y SolidFin absorbe las p\u00e9rdidas adicionales. Nunca enfrent\u00e1s una carga desproporcionada.'},{q:'\u00bfNecesito garant\u00eda o colateral?',a:'No. SolidFin no requiere garant\u00edas reales como hipotecas o prendas. La garant\u00eda es solidaria entre los miembros del grupo.'}],c=document.getElementById('faqList'),h='';for(var i=0;i<faqs.length;i++)h+='<div class="card faq-item" onclick="this.classList.toggle(\'open\')"><div class="faq-q">'+faqs[i].q+'<span class="faq-arrow">\u203A</span></div><div class="faq-a">'+faqs[i].a+'</div></div>';c.innerHTML=h})();
+
+// Dashboard
+var dashTab='overview';
+function setDashTab(t){dashTab=t;renderDashboard()}
+function renderDashboard(){var c=document.getElementById('dashContent'),morosos=2,rate=(15+morosos*0.25).toFixed(2),cells='';for(var i=1;i<=100;i++){var cls=i<=96?'ok':i<=98?'late':'bad';cells+='<div class="g-cell '+cls+'">'+i+'</div>'}var tabs=[{id:'overview',label:'&#128202; Resumen'},{id:'group',label:'&#128101; Mi Grupo'},{id:'payments',label:'&#128176; Pagos'},{id:'achievements',label:'&#127942; Logros'}],tabsH='';for(var t=0;t<tabs.length;t++)tabsH+='<button class="tab '+(dashTab===tabs[t].id?'active':'')+'" onclick="setDashTab(\''+tabs[t].id+'\')">'+tabs[t].label+'</button>';var content='';if(dashTab==='overview'){var cuotas='';for(var j=0;j<12;j++)cuotas+='<div class="cuota '+(j<4?'paid':j===4?'next':'future')+'">'+(j+1)+'</div>';content='<div class="stats-row"><div class="card stat-card"><div class="top"><div><div class="stat-label">Pr\u00e9stamo</div><div class="stat-value">$10.000</div><div class="stat-sub">Monto original</div></div><div class="stat-icon" style="background:rgba(255,107,53,.1)">&#127974;</div></div></div><div class="card stat-card"><div class="top"><div><div class="stat-label">Cuota</div><div class="stat-value">$916</div><div class="stat-sub">Tasa '+rate+'%</div></div><div class="stat-icon" style="background:rgba(46,196,182,.1)">&#128176;</div></div></div><div class="card stat-card"><div class="top"><div><div class="stat-label">Pagado</div><div class="stat-value">33%</div><div class="stat-sub">4 de 12 cuotas</div></div><div class="stat-icon" style="background:rgba(0,184,148,.1)">&#128200;</div></div></div><div class="card stat-card"><div class="top"><div><div class="stat-label">Grupo</div><div class="stat-value">98%</div><div class="stat-sub">al d\u00eda</div></div><div class="stat-icon" style="background:rgba(123,45,142,.1)">&#128101;</div></div></div></div><div class="card" style="margin-bottom:22px"><h3 style="font-size:18px;font-weight:700;margin-bottom:18px">Progreso del pr\u00e9stamo</h3><div class="cuotas-bar">'+cuotas+'</div><div style="display:flex;justify-content:space-between;font-size:13px;color:var(--text-light)"><span>4 cuotas pagadas</span><span>Pr\u00f3xima: 15 de mayo - $916</span></div></div>'}else if(dashTab==='group'){content='<div class="card" style="margin-bottom:22px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:8px"><h3 style="font-size:18px;font-weight:700">Grupo Solidario #47</h3><div style="display:flex;gap:8px;flex-wrap:wrap"><span style="background:#E8FFF5;color:var(--success);padding:5px 12px;border-radius:20px;font-size:12px;font-weight:600">96 al d\u00eda</span><span style="background:#FFF8E8;color:#E8A838;padding:5px 12px;border-radius:20px;font-size:12px;font-weight:600">2 atrasados</span><span style="background:#FFE8E8;color:var(--danger);padding:5px 12px;border-radius:20px;font-size:12px;font-weight:600">2 morosos</span></div></div><div class="group-grid">'+cells+'</div><div style="margin-top:18px;padding:13px;border-radius:12px;background:rgba(46,196,182,.08);display:flex;align-items:center;gap:10px;font-size:14px">&#128737;&#65039; Con 2 morosos, tu tasa actual es <strong>'+rate+'%</strong>. Tu grupo est\u00e1 saludable.</div></div><div class="card"><h3 style="font-size:18px;font-weight:700;margin-bottom:14px">Chat del grupo</h3><div class="chat-msg"><div class="chat-avatar">M</div><div style="flex:1"><div style="display:flex;justify-content:space-between"><span class="chat-name">Mar\u00eda L.</span><span class="chat-time">Hace 2h</span></div><p class="chat-text">Recordemos que la cuota vence el 15!</p></div></div><div class="chat-msg"><div class="chat-avatar">C</div><div style="flex:1"><div style="display:flex;justify-content:space-between"><span class="chat-name">Carlos R.</span><span class="chat-time">Hace 1h</span></div><p class="chat-text">Pagu\u00e9 la m\u00eda hoy. Vamos grupo!</p></div></div><div class="chat-msg"><div class="chat-avatar">A</div><div style="flex:1"><div style="display:flex;justify-content:space-between"><span class="chat-name">T\u00fa (Ana)</span><span class="chat-time">Hace 30min</span></div><p class="chat-text">Yo tambi\u00e9n al d\u00eda! Sigamos as\u00ed</p></div></div></div>'}else if(dashTab==='payments'){var pays=[{m:'Enero 2026',a:'$916',s:'paid',d:'15/01/2026'},{m:'Febrero 2026',a:'$916',s:'paid',d:'14/02/2026'},{m:'Marzo 2026',a:'$916',s:'paid',d:'15/03/2026'},{m:'Abril 2026',a:'$916',s:'paid',d:'01/04/2026'},{m:'Mayo 2026',a:'$920',s:'upcoming',d:'15/05/2026'},{m:'Junio 2026',a:'$920',s:'future',d:'15/06/2026'},{m:'Julio 2026',a:'$920',s:'future',d:'15/07/2026'}],rows='';for(var p=0;p<pays.length;p++){var py=pays[p],icon=py.s==='paid'?'\u2713':py.s==='upcoming'?'\u23F0':'\uD83D\uDD12',stL=py.s==='paid'?'Pagado':py.s==='upcoming'?'Pr\u00f3xima':'Pendiente',stC=py.s==='paid'?'var(--success)':py.s==='upcoming'?'#E8A838':'var(--text-muted)';rows+='<div class="pay-row '+py.s+'"><div class="pay-left"><div class="pay-icon '+py.s+'">'+icon+'</div><div><div style="font-size:15px;font-weight:600">'+py.m+'</div><div style="font-size:12px;color:var(--text-muted)">'+py.d+'</div></div></div><div style="text-align:right"><div class="pay-amount">'+py.a+'</div><div class="pay-status" style="color:'+stC+'">'+stL+'</div></div></div>'}content='<div class="card"><h3 style="font-size:18px;font-weight:700;margin-bottom:18px">Historial de pagos</h3>'+rows+'</div>'}else{var achs=[{e:'\uD83C\uDFAF',t:'Puntual',d:'4 cuotas pagadas a tiempo',u:true},{e:'\u2B50',t:'Primer pago',d:'Realizaste tu primer pago',u:true},{e:'\uD83E\uDD1D',t:'Buen vecino',d:'Participaste en el chat grupal',u:true},{e:'\uD83D\uDD25',t:'Racha de 6',d:'6 cuotas consecutivas a tiempo',u:false},{e:'\uD83C\uDFC6',t:'Grupo oro',d:'0% morosidad por 3 meses',u:false},{e:'\uD83D\uDC8E',t:'Graduado SolidFin',d:'Complet\u00e1 tu pr\u00e9stamo sin atrasos',u:false}],ah='';for(var a=0;a<achs.length;a++){var ac=achs[a];ah+='<div class="card ach-card '+(ac.u?'':'locked')+'"><div class="ach-emoji">'+ac.e+'</div><h4>'+ac.t+'</h4><p>'+ac.d+'</p>'+(ac.u?'<span class="ach-tag">Desbloqueado</span>':'')+'</div>'}content='<div class="ach-grid">'+ah+'</div>'}c.innerHTML='<div class="dash-header"><div><h1>Hola, Ana!</h1><p>Grupo Solidario #47 \u2014 Vista de demostraci\u00f3n</p></div><div class="dash-icons"><div class="dash-icon" style="background:rgba(255,107,53,.1)">&#128276;</div><div class="dash-icon" style="background:rgba(46,196,182,.1)">&#128172;</div></div></div><div class="tabs">'+tabsH+'</div>'+content}
+
+// Investors
+function renderInvestors(){document.getElementById('invContent').innerHTML='<div class="section-center"><div class="badge" style="background:rgba(123,45,142,.1);color:var(--accent)">Para Inversores</div><h1 class="section-title">Un modelo resiliente y escalable</h1><p class="section-desc" style="max-width:700px">SolidFin combina la probada mec\u00e1nica del microcr\u00e9dito grupal (tasas de repago del 95-98%) con innovaciones que lo hacen viable a escala digital.</p></div><div class="inv-metrics"><div class="card inv-metric"><div class="inv-metric-icon" style="background:rgba(255,107,53,.1)">&#128200;</div><div class="val">15-25%</div><div class="lbl">Rango de tasas APR</div></div><div class="card inv-metric"><div class="inv-metric-icon" style="background:rgba(0,184,148,.1)">&#128201;</div><div class="val">95%+</div><div class="lbl">Tasa de repago esperada</div></div><div class="card inv-metric"><div class="inv-metric-icon" style="background:rgba(46,196,182,.1)">&#128737;</div><div class="val">&lt;5%</div><div class="lbl">Morosidad proyectada</div></div><div class="card inv-metric"><div class="inv-metric-icon" style="background:rgba(123,45,142,.1)">&#128101;</div><div class="val">100</div><div class="lbl">Miembros por grupo</div></div></div><div class="inv-two"><div class="card"><h3 style="font-size:21px;font-weight:700;margin-bottom:18px">Dos innovaciones clave</h3><div class="inv-inno"><div class="inv-inno-num" style="background:rgba(255,107,53,.1);color:var(--primary)">1</div><div><h4>Solidaridad Limitada (40%)</h4><p>A diferencia del modelo Grameen cl\u00e1sico donde la responsabilidad es ilimitada, nuestro modelo pone un tope del 40%. Si la mora supera ese umbral, la plataforma absorbe el excedente.</p></div></div><div class="inv-inno"><div class="inv-inno-num" style="background:rgba(46,196,182,.1);color:var(--secondary)">2</div><div><h4>Tasa bonificada con ajuste colectivo</h4><p>Tasa inicial del 15% que sube 0,25 pp por cada moroso. Crea un incentivo colectivo: todos se benefician del cumplimiento grupal. Tope m\u00e1ximo: 25%.</p></div></div></div><div class="card"><h3 style="font-size:21px;font-weight:700;margin-bottom:18px">Escenarios de riesgo</h3><div class="scenario" style="background:#E8FFF5;border-color:var(--success)"><div class="top"><h4>Escenario A: Baja morosidad</h4><span class="level" style="color:var(--success)">\u2264 10%</span></div><p>La plataforma es altamente rentable. Tasas entre 15-17.5%.</p></div><div class="scenario" style="background:#FFF8E8;border-color:#E8A838"><div class="top"><h4>Escenario B: Moderada</h4><span class="level" style="color:#E8A838">20-40%</span></div><p>La plataforma se sostiene gracias al ajuste de tasas. Tasas entre 20-25%.</p></div><div class="scenario" style="background:#FFE8E8;border-color:var(--danger)"><div class="top"><h4>Escenario C: Extrema</h4><span class="level" style="color:var(--danger)">&gt; 40%</span></div><p>Se activa el l\u00edmite de solidaridad. La plataforma absorbe p\u00e9rdidas adicionales. Escenario muy improbable.</p></div></div></div><div class="card"><h3 style="font-size:21px;font-weight:700;margin-bottom:20px;text-align:center">Contexto de mercado</h3><div class="market-cols"><div class="market-col"><div class="col-header"><span>&#127974;</span><h4>Tasas del mercado</h4></div><div class="market-item">\u203A FinTechs EE.UU.: 7% - 36% APR</div><div class="market-item">\u203A Tarjetas de cr\u00e9dito: 20% - 30%</div><div class="market-item">\u203A SolidFin: 15% - 25% APR</div></div><div class="market-col"><div class="col-header"><span>&#128200;</span><h4>Morosidad global</h4></div><div class="market-item">\u203A Mercados desarrollados: 2% - 7%</div><div class="market-item">\u203A Microcr\u00e9dito grupal: 2% - 5%</div><div class="market-item">\u203A Modelo Grameen: &lt; 3%</div></div><div class="market-col"><div class="col-header"><span>&#127919;</span><h4>Ventaja competitiva</h4></div><div class="market-item">\u203A Sin colateral f\u00edsico requerido</div><div class="market-item">\u203A Diversificaci\u00f3n algor\u00edtmica</div><div class="market-item">\u203A Gamificaci\u00f3n y comunidad digital</div></div></div></div>'}
+
+// Register
+var regType='borrower';
+function setRegType(t){regType=t;document.querySelectorAll('.reg-type').forEach(function(el){el.classList.toggle('selected',el.dataset.type===t)});var ag=document.getElementById('amountGroup'),ml=document.getElementById('msgLabel');if(ag)ag.style.display=t==='borrower'?'block':'none';if(ml)ml.textContent=t==='borrower'?'\u00bfPara qu\u00e9 necesit\u00e1s el pr\u00e9stamo?':'\u00bfQu\u00e9 te interesa de SolidFin?'}
+function submitReg(e){e.preventDefault();var name=document.getElementById('regName').value,email=document.getElementById('regEmail').value;document.getElementById('regContent').innerHTML='<div style="display:flex;align-items:center;justify-content:center;min-height:60vh"><div class="card" style="text-align:center;padding:44px;max-width:480px"><div style="font-size:60px;margin-bottom:18px">&#127881;</div><h2 style="font-size:27px;font-weight:800;margin-bottom:10px">\u00a1Te registraste con \u00e9xito!</h2><p style="font-size:16px;color:var(--text-light);margin-bottom:26px;line-height:1.6">Gracias por tu inter\u00e9s en SolidFin, '+name+'. Te contactaremos pronto a '+email+' con los pr\u00f3ximos pasos.</p><button class="btn-primary" onclick="goTo(\'home\')">Volver al inicio</button></div></div>'}
+function renderRegister(){document.getElementById('regContent').innerHTML='<div class="section-center"><h1 class="section-title">Unite a SolidFin</h1><p class="section-desc">Pre-registrate como early adopter y s\u00e9 de los primeros en acceder</p></div><div class="card"><form onsubmit="submitReg(event)"><div class="reg-types"><div class="reg-type selected" data-type="borrower" onclick="setRegType(\'borrower\')"><div class="icon">&#128176;</div><h4>Quiero un pr\u00e9stamo</h4><p>Busco financiamiento accesible</p></div><div class="reg-type" data-type="investor" onclick="setRegType(\'investor\')"><div class="icon">&#128200;</div><h4>Soy inversor</h4><p>Quiero invertir en el modelo</p></div></div><div class="form-group"><label>Nombre completo</label><input class="form-input" id="regName" type="text" placeholder="Tu nombre y apellido" required></div><div class="form-group"><label>Email</label><input class="form-input" id="regEmail" type="email" placeholder="tu@email.com" required></div><div class="form-group"><label>Tel\u00e9fono (opcional)</label><input class="form-input" type="tel" placeholder="+54 11 1234 5678"></div><div class="form-group" id="amountGroup"><label>Monto que necesit\u00e1s (aproximado)</label><select class="form-input"><option value="">Seleccion\u00e1 un rango</option><option>$1.000 - $5.000</option><option>$5.000 - $15.000</option><option>$15.000 - $30.000</option><option>$30.000 - $50.000</option></select></div><div class="form-group"><label id="msgLabel">\u00bfPara qu\u00e9 necesit\u00e1s el pr\u00e9stamo?</label><textarea class="form-input textarea" placeholder="Contanos brevemente..." rows="3"></textarea></div><button type="submit" class="btn-primary" style="width:100%;font-size:17px;padding:16px">Pre-registrarme ahora</button><p style="font-size:13px;color:var(--text-muted);text-align:center;margin-top:14px">Al registrarte, acept\u00e1s recibir informaci\u00f3n sobre SolidFin. No compartimos tus datos.</p></form></div>'}
+
+// Init
+buildSimulator('simHome');
+buildSimulator('simStandalone');
+</script>
+</body>
+</html>
